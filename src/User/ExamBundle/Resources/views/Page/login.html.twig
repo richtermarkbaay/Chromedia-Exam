@@ -1,0 +1,26 @@
+<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<div id = "wrapper">
+
+<div id = "formWrapper">
+	<div class = "title">Login <span>you account.</span></div>
+
+        <form method = "post" action = "loginProcess">
+        
+        	 {{ form_errors(form) }}
+
+        	{{ form_errors(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email / Username'} }) }}
+            <br>
+            {{ form_errors(form.password) }}
+            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'} }) }}
+
+            <br>
+            {{ form_widget(form.login, {'attr': {'class': 'btn btn-primary'} }) }}
+
+            {{ form_rest(form) }}
+
+        </form>
+</div>
+
+</div>

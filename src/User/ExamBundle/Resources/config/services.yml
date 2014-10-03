@@ -1,0 +1,7 @@
+parameters:
+#    user_exam.example.class: User\ExamBundle\Example
+
+services:
+#    user_exam.example:
+#        class: %user_exam.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

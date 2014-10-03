@@ -1,0 +1,4 @@
+user_exam:
+    resource: "@UserExamBundle/Resources/config/routing.yml"
+    prefix:   /
+

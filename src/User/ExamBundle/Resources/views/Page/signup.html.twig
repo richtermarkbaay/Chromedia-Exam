@@ -1,0 +1,36 @@
+<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<div id = "wrapper">
+
+<div id = "formWrapper">
+	<div class = "title">Sign up <span>for free!</span></div>
+
+		<form method = "post" action = "savingProcess">
+			 	{{ form_errors(form) }}
+
+				Email
+				{{ form_errors(form.email) }}
+			    {{ form_widget(form.email, {'attr': {'class': 'form-control'} }) }}
+			    First Name
+				{{ form_errors(form.firstname) }}
+			    {{ form_widget(form.firstname, {'attr': {'class': 'form-control'} }) }}
+			    Last Name
+			    {{ form_errors(form.lastname) }}
+			    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'} }) }}
+			    Password
+			    {{ form_errors(form.password) }}
+			    {{ form_widget(form.password, {'attr': {'class': 'form-control'} }) }}
+			    Confirm Password
+			    {{ form_errors(form.conpass) }}
+			    {{ form_widget(form.conpass, {'attr': {'class': 'form-control'} }) }}
+			 
+			  <br>
+			    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }}
+			  
+
+			    {{ form_rest(form) }}
+		</form>
+
+</div>
+
+</div>

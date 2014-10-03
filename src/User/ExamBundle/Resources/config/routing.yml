@@ -1,0 +1,21 @@
+user_exam_saving:
+    path:     /savingProcess
+    defaults: { _controller: UserExamBundle:Save:save }
+
+user_exam_login:
+    path:     /login
+    defaults: { _controller: UserExamBundle:Page:login }
+
+user_exam_signup:
+    path:     /signup
+    defaults: { _controller: UserExamBundle:Page:signup }
+
+user_exam_home:
+    path:     /home
+    defaults: { _controller: UserExamBundle:Page:home }
+
+user_exam_auth:
+    path:     /loginProcess
+    defaults: { _controller: UserExamBundle:Auth:userlogin }
+
+

@@ -1,0 +1,21 @@
+User\ExamBundle\Entity\UserManagement:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        email:
+            type: text
+        firstname:
+            type: text
+        lastname:
+            type: text
+        password:
+            type: text
+        conpass:
+            type: text
+    lifecycleCallbacks: {  }
