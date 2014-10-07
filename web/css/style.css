@@ -2,10 +2,31 @@ div#formWrapper {
 width: 500px;
 margin: 0 auto;
 margin-top: 100px;
-background: saddlebrown;
+background: #808080;
 border-radius: 5px;
 padding: 30px;
 color :#fff;
+}
+
+a.glyphicon.glyphicon-off {
+color: #fff;
+margin-left: 20px;
+border-right: 1px solid #A9A9A9;
+padding: 10px;
+border-left: 1px solid #A9A9A9;
+}
+
+a.glyphicon.glyphicon-off:hover {
+background: #696969;
+}
+
+.form-control {
+font-weight: 100;
+}
+
+a.fpass {
+color: #00FFFF;
+font-weight: 100;
 }
 
 button#form_save, button#form_login {
@@ -20,7 +41,28 @@ margin-bottom: 30px;
 }
 
 .title span {
-font-weight: normal;
 font-size: 20px;
-color: gray;
-}s
+color: #fff;
+font-weight: 100;
+}
+
+.page-profile .header {
+background: #808080;
+}
+
+.header .wrapper {
+width: 960px;
+margin: 0 auto;
+padding: 20px 0 20px 0;
+}
+
+.header .wrapper div {
+width: 70%;
+display: table-cell;
+font-weight: 100;
+color: lightgrey;
+}
+
+.header .wrapper .right span {
+color: #fff;
+}

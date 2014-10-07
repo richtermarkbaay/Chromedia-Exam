@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block stylesheets %}
+			<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		{% endblock %} 
+	</head>
+	<body class = "page-profile"> 
+		<div id = "wrapper">
+			<div class = "header">	
+				<div class = "wrapper">
+					<div class = "left"></div>
+					<div class = "right">
+						Welcome Back! <span>Ricntermark Baay</span>
+						<a href = "logout" class="glyphicon glyphicon-off" title = "Logout your account!"></a></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

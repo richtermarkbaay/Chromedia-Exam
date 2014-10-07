@@ -39,6 +39,11 @@ class UserManagement
      */
     private $conpass;
 
+    /**
+    *
+    *@var string
+    */
+    private $status;
 
     /**
      * Get id
@@ -163,5 +168,28 @@ class UserManagement
     public function getConpass()
     {
         return $this->conpass;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $conpass
+     * @return UserManagement
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

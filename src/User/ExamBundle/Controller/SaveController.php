@@ -19,8 +19,13 @@ class SaveController extends Controller
                 $user->setEmail($data['email']);
                 $user->setFirstname($data['firstname']);
                 $user->setLastname($data['lastname']);
-                $user->setPassword($data['password']);
-                $user->setConpass($data['conpass']);
+                $fpass = crypt($data['password']);
+                $user->setPassword($fpass);
+               // $user->setConpass($data['conpass']);
+                $user->setConpass($fpass);
+                $stat = "inactive";
+                $user->setStatus($stat);
+
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);

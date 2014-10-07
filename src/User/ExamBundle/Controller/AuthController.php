@@ -1,5 +1,6 @@
 <?php
 namespace User\ExamBundle\Controller;
+session_start();
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use User\ExamBundle\Entity\UserManagement;
@@ -11,28 +12,48 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class AuthController extends Controller
-{
+{ 
     public function userloginAction(Request $request){
-
+        $location = '';
+       $user = new UserManagement();
+       
        $request = Request::createFromGlobals();
         $data = $request->request->get('form');
-
+        
         $email = trim($data['email']);
         $password = trim($data['password']);
-        
-        $em = $this->getDoctrine();
-        $repo  = $em->getRepository("UserExamBundle:UserManagement"); 
-        $user = $repo->loadUserByEmail($email);
-        if (!$user) {
-            throw new UsernameNotFoundException("Email not found");
-        } else {
-            $token = new UsernamePasswordToken($user, null, "your_firewall_name", $user->getRoles());
-            $this->get("security.context")->setToken($token); //now the user is logged in
-             
-            //now dispatch the login event
-            $request = $this->get("request");
-            $event = new InteractiveLoginEvent($request, $token);
-            $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
-        }
+        $fpass = crypt($password);
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                "SELECT u
+                FROM UserExamBundle:UserManagement u
+                WHERE u.email = '$email' and u.password = '$password'");
+            $ulogin = $query->getResult();
+
+            if(count($ulogin)>0){
+
+              print "<pre>";
+                    print_r($ulogin);
+              print "</pre>";
+
+
+
+            foreach ($ulogin as $result) {
+                echo $result->email; 
+                echo "<br>";
+            } 
+
+
+                $msg = "Success!";
+
+
+            }else{
+                $msg="Fail";
+
+            }
+
+     return new Response($msg);
+     //return $this->render($location);   
     }
 }

@@ -46,6 +46,11 @@ class PageController extends Controller
 
     }
 
+    public function profileAction(Request $request)
+    {
+        return $this->render('UserExamBundle:Page:profile.html.twig');
+    }
+
 
 
 }
