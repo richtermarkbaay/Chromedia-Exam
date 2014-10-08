@@ -2,6 +2,10 @@ user_exam_saving:
     path:     /savingProcess
     defaults: { _controller: UserExamBundle:Save:save }
 
+user_exam_update:
+    path:     /updatingProcess
+    defaults: { _controller: UserExamBundle:Save:update }
+
 user_exam_login:
     path:     /login
     defaults: { _controller: UserExamBundle:Page:login }
@@ -21,5 +25,9 @@ user_exam_auth:
 user_exam_profile:
     path:     /profile
     defaults: { _controller: UserExamBundle:Page:profile }
+    
+user_exam_logout:
+    path:   /logout
+    defaults: { _controller: UserExamBundle:Auth:logout }
 
 

@@ -1,6 +1,5 @@
 <?php
 namespace User\ExamBundle\Controller;
-session_start();
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use User\ExamBundle\Entity\UserManagement;
@@ -11,10 +10,11 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
+use Symfony\Component\HttpFoundation\Session\Session; 
+
 class AuthController extends Controller
 { 
     public function userloginAction(Request $request){
-        $location = '';
        $user = new UserManagement();
        
        $request = Request::createFromGlobals();
@@ -22,38 +22,48 @@ class AuthController extends Controller
         
         $email = trim($data['email']);
         $password = trim($data['password']);
-        $fpass = crypt($password);
+        $fpass = sha1($password);
 
             $em = $this->getDoctrine()->getManager();
             $query = $em->createQuery(
                 "SELECT u
                 FROM UserExamBundle:UserManagement u
-                WHERE u.email = '$email' and u.password = '$password'");
+                WHERE u.email = '$email' and u.password = '$fpass'");
             $ulogin = $query->getResult();
 
+            $session = new Session();
+            $session->start();
+            
             if(count($ulogin)>0){
 
-              print "<pre>";
-                    print_r($ulogin);
-              print "</pre>";
+              foreach ($ulogin as $result) {
+                  $i = $result->getId();   
 
+                                
+                  $session->set('id', $i);
 
-
-            foreach ($ulogin as $result) {
-                echo $result->email; 
-                echo "<br>";
-            } 
-
-
-                $msg = "Success!";
-
+                  $ret = 'profile';
+              } 
 
             }else{
-                $msg="Fail";
-
+                $ret="Fail to login account!";
             }
+      return $this->redirect($ret);
+        //return new Response('id is '.$i);
+    }
 
-     return new Response($msg);
-     //return $this->render($location);   
+     //logout
+    public function logoutAction(){
+
+        if(!isset($_SESSION['email'])){
+            $response = 'UserExamBundle:Page:login.html.twig';
+        }else{
+                unset($_SESSION['email']);
+                $response = 'UserExamBundle:Page:login.html.twig';
+        }
+        
+     return $this->render($response);
+
+
     }
 }

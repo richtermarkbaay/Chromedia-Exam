@@ -66,3 +66,20 @@ color: lightgrey;
 .header .wrapper .right span {
 color: #fff;
 }
+
+.page-profile .content {
+width: 960px;
+margin: 0 auto;
+padding-top: 50px;
+}
+
+.page-profile input.form-control {
+border: none !important;
+width: 300px;
+}
+.page-profile a.glyphicon.glyphicon-home {
+color: #fff;
+font-size: 55px;
+position: absolute;
+top: 20px;
+}

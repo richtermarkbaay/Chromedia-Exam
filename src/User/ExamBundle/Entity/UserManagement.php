@@ -192,4 +192,9 @@ class UserManagement
     {
         return $this->status;
     }
+
+    // public function __get($key, $val)
+    // {
+    //     return $this->data[$key];
+    // }
 }

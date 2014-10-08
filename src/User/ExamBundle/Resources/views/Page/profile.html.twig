@@ -5,17 +5,62 @@
 			<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		{% endblock %} 
+
+			<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+			<script>
+				$( "#showAccount" ).click(function() {
+				  $( ".accounts" ).slideToggle( "slow" );
+				});
+			</script>
+
 	</head>
 	<body class = "page-profile"> 
 		<div id = "wrapper">
+
 			<div class = "header">	
 				<div class = "wrapper">
-					<div class = "left"></div>
+					<div class = "left">
+						<a href = "#" title = "Home" class = "glyphicon glyphicon-home"/></a>
+					</div>
 					<div class = "right">
-						Welcome Back! <span>Ricntermark Baay</span>
-						<a href = "logout" class="glyphicon glyphicon-off" title = "Logout your account!"></a></div>
+						Welcome Back! <span>{{ name }}</span>
+						<a href = "{{ path('user_exam_logout') }}" class="glyphicon glyphicon-off" title = "Logout your account!"></a></div>
 				</div>
 			</div>
+
+			<div class ="content">
+				<a href="#" class="glyphicon glyphicon-edit" id="showccount"> MyAccount</a><br><br>
+					<div class = "accounts">	
+						<form method = "post" action = "updatingProcess">
+							 	{{ form_errors(form) }}
+
+							 	Id
+								{{ form_errors(form.id) }}
+							    {{ form_widget(form.id, {'attr': {'class': 'form-control', 'value': id } } ) }}
+								Email
+								{{ form_errors(form.email) }}
+							    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'value': email } } ) }}
+							    First Name
+								{{ form_errors(form.firstname) }}
+							    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'value': fname} }) }}
+							    Last Name
+							    {{ form_errors(form.lastname) }}
+							    {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'value': lname} }) }}
+							    Password
+							    {{ form_errors(form.password) }}
+							    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'value': password} }) }}
+							 
+							  <br>
+							    {{ form_widget(form.update, {'attr': {'class': 'btn btn-primary'} }) }}
+							  
+
+							    {{ form_rest(form) }}
+						</form>
+
+
+					</div>
+			</content>
+
 		</div>
 	</body>
 </html>
