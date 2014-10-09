@@ -2,6 +2,10 @@ user_exam_saving:
     path:     /savingProcess
     defaults: { _controller: UserExamBundle:Save:save }
 
+user_exam_changep:
+    path:     /changepasswordProcess
+    defaults: { _controller: UserExamBundle:Save:changepassword }
+
 user_exam_update:
     path:     /updatingProcess
     defaults: { _controller: UserExamBundle:Save:update }

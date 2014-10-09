@@ -39,6 +39,11 @@ class UserManagement
      */
     private $conpass;
 
+     /**
+     * @var string
+     */
+    private $newpass;
+
     /**
     *
     *@var string
@@ -168,6 +173,22 @@ class UserManagement
     public function getConpass()
     {
         return $this->conpass;
+    }
+
+    public function setNewpass($newpass)
+    {
+        $this->newpass = $newpass;
+
+        return $this;
+    }
+    /**
+     * Get conpass
+     *
+     * @return string 
+     */
+    public function getNewpass()
+    {
+        return $this->newpass;
     }
 
     /**

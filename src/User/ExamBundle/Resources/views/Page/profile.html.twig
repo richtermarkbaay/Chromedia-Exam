@@ -6,12 +6,13 @@
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		{% endblock %} 
 
-			<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-			<script>
-				$( "#showAccount" ).click(function() {
-				  $( ".accounts" ).slideToggle( "slow" );
-				});
-			</script>
+		{% block javascripts %}
+		    {% javascripts 
+		    '@UserExamBundle/Resources/public/js/*'
+		    %}
+		        <script type="text/javascript" src="{{ asset_url }}"></script>
+		    {% endjavascripts %}
+		{% endblock %}
 
 	</head>
 	<body class = "page-profile"> 
@@ -23,38 +24,57 @@
 						<a href = "#" title = "Home" class = "glyphicon glyphicon-home"/></a>
 					</div>
 					<div class = "right">
-						Welcome Back! <span>{{ name }}</span>
+						Welcome Back! <span> {{ app.session.get('firstname') }} {{ app.session.get('lastname') }}  </span>
 						<a href = "{{ path('user_exam_logout') }}" class="glyphicon glyphicon-off" title = "Logout your account!"></a></div>
 				</div>
 			</div>
 
 			<div class ="content">
-				<a href="#" class="glyphicon glyphicon-edit" id="showccount"> MyAccount</a><br><br>
+				<a href="#" class="glyphicon glyphicon-edit" id="showAccount"> MyAccount</a><br><br>
 					<div class = "accounts">	
 						<form method = "post" action = "updatingProcess">
-							 	{{ form_errors(form) }}
+							 	{{ form_errors(form1) }}
 
-							 	Id
-								{{ form_errors(form.id) }}
-							    {{ form_widget(form.id, {'attr': {'class': 'form-control', 'value': id } } ) }}
+							 	<span class = "id">Id</span>
+								{{ form_errors(form1.id) }}
+							    {{ form_widget(form1.id, {'attr': {'class': 'form-control', 'value': app.session.get('id') } } ) }}
 								Email
-								{{ form_errors(form.email) }}
-							    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'value': email } } ) }}
+								{{ form_errors(form1.email) }}
+							    {{ form_widget(form1.email, {'attr': {'class': 'form-control', 'disabled': 'disabled','value': app.session.get('email')} } ) }}
 							    First Name
-								{{ form_errors(form.firstname) }}
-							    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'value': fname} }) }}
+								{{ form_errors(form1.firstname) }}
+							    {{ form_widget(form1.firstname, {'attr': {'class': 'form-control', 'value': app.session.get('firstname')} }) }}
 							    Last Name
-							    {{ form_errors(form.lastname) }}
-							    {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'value': lname} }) }}
-							    Password
-							    {{ form_errors(form.password) }}
-							    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'value': password} }) }}
-							 
-							  <br>
-							    {{ form_widget(form.update, {'attr': {'class': 'btn btn-primary'} }) }}
-							  
+							    {{ form_errors(form1.lastname) }}
+							    {{ form_widget(form1.lastname, {'attr': {'class': 'form-control', 'value': app.session.get('lastname') } }) }}
 
-							    {{ form_rest(form) }}
+							  <br>
+							    {{ form_widget(form1.update, {'attr': {'class': 'btn btn-primary'} }) }}
+							  
+						</form>
+
+
+					</div>
+				<a href="#" class="glyphicon glyphicon-edit" id="changePassword"> Change Password</a><br><br>
+					<div class = "cpassword">	
+						<form method = "post" action = "changepasswordProcess" name = "form2">
+							 	{{ form_errors(form2) }}
+
+							    Current Password
+								{{ form_errors(form2.password) }}
+							    {{ form_widget(form2.password, {'attr': {'class': 'form-control'}}) }}
+
+							    New Password
+							    {{ form_errors(form2.newpass) }}
+							    {{ form_widget(form2.newpass, {'attr': {'class': 'form-control'}}) }}
+
+							    Confirm Password
+							    {{ form_errors(form2.conpass) }}
+							    {{ form_widget(form2.conpass, {'attr': {'class': 'form-control'}}) }}
+
+							  <br>
+							    {{ form_widget(form2.update, {'attr': {'class': 'btn btn-primary'} }) }}
+							  
 						</form>
 
 

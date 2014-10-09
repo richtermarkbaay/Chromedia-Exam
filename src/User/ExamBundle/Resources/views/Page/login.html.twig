@@ -6,20 +6,18 @@
 	<div class = "title">Login <span>you account.</span></div>
 
         <form method = "post" action = "loginProcess">
+
+        <div id = "error-msg" class = "glyphicon glyphicon-remove"> {{ app.session.get('error') }} </div>
         
-        	 {{ form_errors(form) }}
-
-        	{{ form_errors(form.email) }}
-            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email / Username'} }) }}
+        	{{ form_errors(form1.email) }}
+            {{ form_widget(form1.email, {'attr': {'class': 'form-control', 'placeholder': 'Email / Username'} }) }}
             <br>
-            {{ form_errors(form.password) }}
-            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'} }) }}
+            {{ form_errors(form1.password) }}
+            {{ form_widget(form1.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'} }) }}
 
             <br>
-            {{ form_widget(form.login, {'attr': {'class': 'btn btn-primary'} }) }}
-
-            {{ form_rest(form) }}
-
+            {{ form_widget(form1.login, {'attr': {'class': 'btn btn-primary'} }) }}
+            
         </form>
 
         Forgot password ? <a href = "#" class = "fpass"> Click here</a>.

@@ -31,39 +31,56 @@ class AuthController extends Controller
                 WHERE u.email = '$email' and u.password = '$fpass'");
             $ulogin = $query->getResult();
 
-            $session = new Session();
-            $session->start();
-            
             if(count($ulogin)>0){
+              $session = new Session();
+              $session->start();
 
               foreach ($ulogin as $result) {
-                  $i = $result->getId();   
-
                                 
-                  $session->set('id', $i);
-
+                  $session->set('id', $result->getId());
+                  $session->set('firstname', $result->getFirstname());
+                  $session->set('email', $result->getEmail());
+                  $session->set('lastname', $result->getLastname());
+                  $session->set('password', $result->getPassword());
+                  
                   $ret = 'profile';
               } 
 
             }else{
-                $ret="Fail to login account!";
+            //  $session->set('error', 'Invalid username / password');
+                return $this->redirect('login');
             }
       return $this->redirect($ret);
-        //return new Response('id is '.$i);
+    }
+
+    //send email
+    public function indexAction($name)
+    {/*
+        $session = new Session();
+        $email = $session->get('email');
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Email Confirmation')
+            ->setFrom('send@example.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    'UserExamBundle:Page:profile.html.twig',
+                    array('name' => $name)
+                )
+            )
+        ;
+        $this->get('mailer')->send($message);
+
+        return $this->render('');
+        */
     }
 
      //logout
     public function logoutAction(){
+       $session = new Session();
 
-        if(!isset($_SESSION['email'])){
-            $response = 'UserExamBundle:Page:login.html.twig';
-        }else{
-                unset($_SESSION['email']);
-                $response = 'UserExamBundle:Page:login.html.twig';
-        }
-        
-     return $this->render($response);
-
-
+         // $session->remove('id');
+              return $this->redirect('login');
     }
 }

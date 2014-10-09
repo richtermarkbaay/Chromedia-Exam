@@ -7,6 +7,7 @@ use User\ExamBundle\Entity\UserManagement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpFoundation\Session\Session; 
 class SaveController extends Controller
 {
     public function saveAction(Request $request)
@@ -35,35 +36,63 @@ class SaveController extends Controller
         return new Response('New Account created '.$data['firstname']." ".$data['lastname']);
     }
 
-    public function updateAction(Request $request)
-    {
+    public function updateAction(Request $request){
 
         $data = $request->request->get('form');
+        $idtoupdate = $data['id'];
+
         $user = new UserManagement();
 
-        $response = $data['id'];
-
-
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('UserExamBundle:UserManagement')->find($response);
+        $user = $em->getRepository('UserExamBundle:UserManagement')->find($idtoupdate);
 
         if (!$user) {
             throw $this->createNotFoundException(
-                'No user found for id '.$response
+                'No user found for id '.$idtoupdate
             );
         }
-        $user->setEmail($data['email']);
         $user->setFirstname($data['firstname']);
         $user->setLastname($data['lastname']);
-        $fpass = sha1($data['password']);
-        $user->setPassword($fpass);
         $em->flush();
 
-        return new Response("<script>
-                                    alert('Updating success!');
-                                </script>");
+        return $this->redirect('profile');
 
-      //  return $this->redirect($this->generateUrl('user_exam_profile'));
+    }
+
+    public function changepasswordAction(Request $request){
+        $data = $request->request->get('form');
+        $passdata = sha1($data['password']);
+        $newpassdata = $data['newpass'];
+        $conpassdata = $data['conpass'];
+
+        $session = new Session();
+        $id = $session->get('id');
+        $pass = $session->get('password');
+
+
+        if($passdata != $pass){
+                return $this->render("Invalid current data!");
+        }else if($newpassdata != $conpassdata){
+                 return $this->render("Please confirm password!");
+        }else{
+
+                $user = new UserManagement();
+
+                    $em = $this->getDoctrine()->getManager();
+                    $user = $em->getRepository('UserExamBundle:UserManagement')->find($id);
+
+                    if (!$user) {
+                        throw $this->createNotFoundException(
+                            'No user found for id '.$idtoupdate
+                        );
+                    }
+                    $user->setPassword(sha1($newpassdata));
+                    $user->setConpass(sha1($conpassdata));
+                    $em->flush();
+
+                    return $this->redirect('profile');
+
+        }
 
     }
 
