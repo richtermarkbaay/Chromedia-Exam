@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	</head>
+		<body class = "page-request">
+
+			<div class = "main">
+
+				<p>Enter your email address to send the request.</p>
+
+					<form method = "post" action = "sendEmailRequest">
+
+						{{ form_errors(form1.email) }}
+					    {{ form_widget(form1.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'} }) }}
+
+					    <br>
+
+					    {{ form_widget(form1.request, {'attr': {'class': 'btn btn-primary'} }) }}
+
+				    </form>
+				    
+			</div>
+
+		</body>
+</html>

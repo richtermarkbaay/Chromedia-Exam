@@ -2,6 +2,26 @@ user_exam_saving:
     path:     /savingProcess
     defaults: { _controller: UserExamBundle:Save:save }
 
+user_exam_reseting:
+    path:     /resetProcess
+    defaults: { _controller: UserExamBundle:Save:resetNow }
+
+user_exam_resetpasschange:
+    path:     /resetpassword
+    defaults: { _controller: UserExamBundle:Page:resetpasschange }
+
+user_exam_resetpass:
+    path:     /reset_pass
+    defaults: { _controller: UserExamBundle:Page:resetpass }
+
+user_exam_sendRequest:
+    path:     /sendEmailRequest
+    defaults: { _controller: UserExamBundle:Save:sendEmailRequest }
+
+user_exam_confirmemail:
+    path:     /confirmEmail
+    defaults: { _controller: UserExamBundle:Save:confirmEmail }
+
 user_exam_changep:
     path:     /changepasswordProcess
     defaults: { _controller: UserExamBundle:Save:changepassword }
@@ -33,5 +53,9 @@ user_exam_profile:
 user_exam_logout:
     path:   /logout
     defaults: { _controller: UserExamBundle:Auth:logout }
+
+
+
+
 
 

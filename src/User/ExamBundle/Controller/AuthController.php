@@ -24,63 +24,61 @@ class AuthController extends Controller
         $password = trim($data['password']);
         $fpass = sha1($password);
 
-            $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery(
-                "SELECT u
-                FROM UserExamBundle:UserManagement u
-                WHERE u.email = '$email' and u.password = '$fpass'");
-            $ulogin = $query->getResult();
+          try{
 
-            if(count($ulogin)>0){
-              $session = new Session();
-              $session->start();
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery(
+                        "SELECT u
+                        FROM UserExamBundle:UserManagement u
+                        WHERE u.email = '$email' and u.password = '$fpass'");
+                    $ulogin = $query->getResult();
 
-              foreach ($ulogin as $result) {
-                                
-                  $session->set('id', $result->getId());
-                  $session->set('firstname', $result->getFirstname());
-                  $session->set('email', $result->getEmail());
-                  $session->set('lastname', $result->getLastname());
-                  $session->set('password', $result->getPassword());
-                  
-                  $ret = 'profile';
-              } 
+                    if(count($ulogin)>0){
 
-            }else{
-            //  $session->set('error', 'Invalid username / password');
-                return $this->redirect('login');
-            }
-      return $this->redirect($ret);
-    }
+                        foreach ($ulogin as $result) {
 
-    //send email
-    public function indexAction($name)
-    {/*
-        $session = new Session();
-        $email = $session->get('email');
+                            if($result->getStatus() == trim('inactive')) {
+                                 return $this->redirect('login');
+                            }else{
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Email Confirmation')
-            ->setFrom('send@example.com')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'UserExamBundle:Page:profile.html.twig',
-                    array('name' => $name)
-                )
-            )
-        ;
-        $this->get('mailer')->send($message);
+                                $session = new Session();
+                                $session->start();
+                                // set all sessions
+                                $session->set('id', $result->getId());
+                                $session->set('firstname', $result->getFirstname());
+                                $session->set('email', $result->getEmail());
+                                $session->set('lastname', $result->getLastname());
+                                $session->set('password', $result->getPassword());
 
-        return $this->render('');
-        */
+                                return $this->redirect('profile');
+
+                            }
+                        } 
+
+                    }else{
+                        return $this->redirect('login');
+                    }
+
+            }catch(\Doctrine\DBAL\DBALException $e) {
+
+                                $this->get('session')->getFlashBag()->add('error', 'Somethings problem with your data, not authenticating!');
+
+                            }
     }
 
      //logout
     public function logoutAction(){
        $session = new Session();
 
-         // $session->remove('id');
-              return $this->redirect('login');
+       try{
+
+                  return $this->redirect('login');
+ 
+       }catch(\Doctrine\DBAL\DBALException $e) {
+
+           $this->get('session')->getFlashBag()->add('error', 'The session setting is not unset!');
+
+       }
+
     }
 }

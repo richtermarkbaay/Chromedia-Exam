@@ -24,10 +24,23 @@ class PageController extends Controller
         return $this->formbuilderAction($page, $action, $actionName);
     }
 
+    public function resetpasschangeAction(){
+
+          $page = 'reset_password'; $action = 'save'; $actionName = 'Save';
+          return $this->formbuilderAction($page, $action, $actionName);
+    }
+
     //login
     public function loginAction()
     {      
         $page = 'login'; $action = 'login'; $actionName = 'Login';
+      return $this->formbuilderAction($page, $action, $actionName);
+    }
+
+    //reset pass
+    public function resetpassAction(){
+
+       $page = 'resetPassRequest'; $action = 'request'; $actionName = 'Send Request';
       return $this->formbuilderAction($page, $action, $actionName);
     }
 
@@ -51,18 +64,4 @@ class PageController extends Controller
                                                             'form2' => $form->createView(),
          ));  
     }
-    public function querycountidAction(){
-
-        $session = new Session();
-                $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery("SELECT count(u.id) FROM UserExamBundle:UserManagement u");
-                $count = $query->getSingleScalarResult();
-                //$count = $query->getResult(Query::HYDRATE_SINGLE_SCALAR);
-
-                $count = $count + 1;
-                return $count;
-
-                $session->set('count', $count);
-    }
-
 }

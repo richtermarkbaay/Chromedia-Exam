@@ -74,8 +74,8 @@ swiftmailer:
     encryption: ssl
     auth_mode:  login
     host:       smtp.gmail.com
-    username:   root
-    password:   ""
+    username:   richtermark.baay@chromedia.com  
+    password:   richtermarkbaay
     spool:     { type: memory }
 
 

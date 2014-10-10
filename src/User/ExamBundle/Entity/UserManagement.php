@@ -194,7 +194,7 @@ class UserManagement
     /**
      * Set status
      *
-     * @param string $conpass
+     * @param string $status
      * @return UserManagement
      */
     public function setStatus($status)
