@@ -38,6 +38,7 @@ class AuthController extends Controller
                         foreach ($ulogin as $result) {
 
                             if($result->getStatus() == trim('inactive')) {
+                                 $this->get('session')->getFlashBag()->add('error', 'Confirm your account first!');
                                  return $this->redirect('login');
                             }else{
 
@@ -56,6 +57,7 @@ class AuthController extends Controller
                         } 
 
                     }else{
+                        $this->get('session')->getFlashBag()->add('error', 'Invalid username / Password');
                         return $this->redirect('login');
                     }
 

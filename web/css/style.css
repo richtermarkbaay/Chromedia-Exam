@@ -85,7 +85,7 @@ top: 20px;
 }
 
 #error-msg {
-background: #ea5257;
+background: #FF8081;;
 color: #f7cdce;
 font-weight: 100;
 padding: 10px 0 10px 10px;
@@ -94,7 +94,7 @@ border-radius: 3px;
 margin-bottom: 10px;
 }
 
-.page-profile span.id, .page-profile input#form_id{
+.page-profile span.id, .page-profile input#form_id, body.page-resetpassword input#form_id {
 	display:none;
 }
 
@@ -126,4 +126,21 @@ margin-top: 100px;
 body.page-resetpassword .wrapper  p {
 font-size: 32px;
 text-align: center;
+}
+
+body.page-request a.signup-forgot {
+color: #428bca;
+}
+a.signup-forgot {
+color: #fff;
+font-weight: 100;
+font-style: italic;
+}
+
+div#success-msg {
+background: #9EFFAE;
+color: #057116;
+border-radius: 3px;
+font-weight: 100;
+padding: 10px;
 }

@@ -1,0 +1,36 @@
+pre {
+    margin-bottom: 20px;
+    padding: 0.9em;
+}
+
+.doc_page h2, .doc_page h3, .doc_page h4, .doc_page h5 {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+h2 a, h3 a, h4 a {
+    color: #313131;
+    text-decoration: none;
+}
+
+h2 a:hover, h3 a:hover, h4 a:hover {
+    text-decoration: none;
+}
+
+.admonition-sidebar p.title {
+    font-weight: bold;
+}
+
+p.figure {
+    font-size: 70%;
+    font-style: italic;
+    padding-bottom: 3px;
+}
+
+.doc_table td, .doc_table th {
+    padding: 5px;
+}
+
+.doc_table {
+    margin-bottom: 15px;
+}

@@ -7,6 +7,18 @@
 
 			<div class = "main">
 
+	        {% for flashMessage in app.session.flashbag.get('error') %}
+	            <div class="glyphicon glyphicon-remove" id = "error-msg">
+	            {{ flashMessage }}
+	            </div> 
+	        {% endfor %}
+
+	        {% for flashMessage in app.session.flashbag.get('success') %}
+	            <div id = "success-msg" class = "glyphicon glyphicon-ok">
+	            {{ flashMessage }}
+	            </div> 
+        	{% endfor %}
+
 				<p>Enter your email address to send the request.</p>
 
 					<form method = "post" action = "sendEmailRequest">
@@ -19,6 +31,9 @@
 					    {{ form_widget(form1.request, {'attr': {'class': 'btn btn-primary'} }) }}
 
 				    </form>
+
+				<br><br>
+			    <a class = "signup-forgot" href="{{ path('user_exam_login') }}"> << Back to login </a> 
 				    
 			</div>
 

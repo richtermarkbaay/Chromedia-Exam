@@ -36,7 +36,8 @@ class SaveController extends Controller
 
             if($data['password']!= $data['conpass']){
 
-                throw $this->createNotFoundException('Please confirm password');
+                $this->get('session')->getFlashBag()->add('error', 'Password did not match! Please try again.');
+                return $this->redirect('resetpassword');
 
             }else{
 
@@ -72,6 +73,7 @@ class SaveController extends Controller
 
 
 
+              $this->get('session')->getFlashBag()->add('success', 'Successfully reset your password! You can now login.');
                 return $this->redirect('login');
             }
 
@@ -84,12 +86,15 @@ class SaveController extends Controller
             $request = Request::createFromGlobals();
             $data = $request->request->get('form');     
             $email = $data['email'];
-
+  
              $em = $this->getDoctrine()->getManager();
                                 $query = $em->createQuery("SELECT u FROM UserExamBundle:UserManagement u WHERE u.email = '$email'");
                                 $result = $query->getResult();
 
-                            foreach($result as $row){
+
+            if(count($result)>0){
+
+                    foreach($result as $row){
 
                                 $fname = $row->getFirstname();
                                      $lname = $row->getLastname();
@@ -97,36 +102,40 @@ class SaveController extends Controller
                             } 
 
 
-            $message = \Swift_Message::newInstance()
+                        $message = \Swift_Message::newInstance()
 
-                ->setSubject('Reset password request')
-                ->setFrom('send@example.com')
-                ->setTo($email)
-                ->setBody(
-                    $this->renderView(
-                        'UserExamBundle:Page:resetPassRequestMail.html.twig',
-                                                                     array(
-                                                                            'email' => $email,
-                                                                            'fname' => $fname,
-                                                                            'lname' => $lname,
-                                                                            'id' => $id,
-                                                                         )
-                    )
-                )
-            ;
+                            ->setSubject('Reset password request')
+                            ->setFrom('send@example.com')
+                            ->setTo($email)
+                            ->setContentType('text/html')
+                            ->setBody(
+                                $this->renderView(
+                                    'UserExamBundle:Page:resetPassRequestMail.html.twig',
+                                                                                 array(
+                                                                                        'email' => $email,
+                                                                                        'fname' => $fname,
+                                                                                        'lname' => $lname,
+                                                                                        'id' => $id,
+                                                                                     )
+                                )
+                            );
 
-            $session = new Session();
-            $session->set('id', $id);
-            $session->set('email', $email);
+                        $session = new Session();
+                        $session->set('id', $id);
+                        $session->set('email', $email);
 
-            $this->get('mailer')->send($message);  
+                        $this->get('mailer')->send($message);  
 
-            return $this->render('UserExamBundle:Page:successrequest.html.twig', array(
-                                                                            'email' => $email,
-                ));  
+                     
+                    $this->get('session')->getFlashBag()->add('success', 'Request has been successfully send to this email '.$email.'! Please check your email.');
+                    return $this->redirect('reset_pass');
 
+            }else{
 
-          //return $this->render($email);
+                $this->get('session')->getFlashBag()->add('error', 'Email '.$email.' does not exist!');
+                return $this->redirect('reset_pass');
+
+            }
     }
 
     //send email
@@ -137,6 +146,7 @@ class SaveController extends Controller
             ->setSubject('Email Confirmation')
             ->setFrom('send@example.com')
             ->setTo($email)
+            ->setContentType('text/html')
             ->setBody(
                 $this->renderView(
                     'UserExamBundle:Page:confirmemail.html.twig',
@@ -166,42 +176,48 @@ class SaveController extends Controller
                  $id = $_GET['id'];
                         $stat = 'active';
 
-                try{
                         $user = new UserManagement();
                         $em = $this->getDoctrine()->getManager();
                         $user = $em->getRepository('UserExamBundle:UserManagement')->find($id);
 
-                        if (!$user) {
-                            throw $this->createNotFoundException(
-                                'No user found for id '.$id
-                            );
+                        if($user->getStatus() == $stat){
+
+                                return new Response('<script> alert("You cannot access this confirmation anymore! Account is already confirmed."); </script> I advice you to delete this message! ^_^');
+
+                        } else{
+
+                                try{
+                                            $user->setStatus($stat);
+                                            $em->flush();
+
+                                    }catch(\Doctrine\DBAL\DBALException $e) {
+
+                                                        $this->get('session')->getFlashBag()->add('error', 'Somethings happen with the confirmation of account, Please try again!');
+
+                                                    }
+                                     $this->get('session')->getFlashBag()->add('success', 'Your email has been confirmed! You can login now.');                 
+                                    return $this->redirect('login');
+
+
                         }
-                        $user->setStatus($stat);
-                        $em->flush();
-
-                }catch(\Doctrine\DBAL\DBALException $e) {
-
-                                    $this->get('session')->getFlashBag()->add('error', 'Somethings happen with the confirmation of account, Please try again!');
-
-                                }
-
-                return $this->redirect('login');
         }     
     }
 
 
     public function saveAction(Request $request)
     {
+
         $request = Request::createFromGlobals();
                 $data = $request->request->get('form');
-                
+
                 //for email confirmation details
                 $email = $data['email'];
                 $name = $data['firstname']." ".$data['lastname'];
 
                     if($data['password'] != $data['conpass']){
 
-                           return new Response('Please confirm password!'); 
+                           $this->get('session')->getFlashBag()->add('error', ' Please confirm password.');
+                           return $this->redirect('signup');
                     }else{
 
                          $fpass = sha1($data['password']);
@@ -231,10 +247,11 @@ class SaveController extends Controller
 
                                 }
 
-                    return new Response('New account saved! Please confirm your email to continue using "exam site".'.$name); 
+                    $this->get('session')->getFlashBag()->add('success', $name.' successfully registered! Please confirm your account to your email.');
+                    return $this->redirect('signup');
 
                     }  
-         
+
     }
 
     public function updateAction(Request $request){

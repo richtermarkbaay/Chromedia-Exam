@@ -1,26 +1,53 @@
-<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<div id = "wrapper">
+<!DOCTYPE html>
+<html>
 
-<div id = "formWrapper">
-	<div class = "title">Login <span>you account.</span></div>
+    <head>
+        <link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    </head>
 
-        <form method = "post" action = "loginProcess">
+    <body class = "page-login">
 
-        <div id = "error-msg" class = "glyphicon glyphicon-remove"> {{ app.session.get('error') }} </div>
-        
-        	{{ form_errors(form1.email) }}
-            {{ form_widget(form1.email, {'attr': {'class': 'form-control', 'placeholder': 'Email / Username'} }) }}
-            <br>
-            {{ form_errors(form1.password) }}
-            {{ form_widget(form1.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'} }) }}
+            <div id = "wrapper">
 
-            <br>
-            {{ form_widget(form1.login, {'attr': {'class': 'btn btn-primary'} }) }}
-            
-        </form>
+                    <div id = "formWrapper">
+                        <div class = "title">Login <span>you account.</span></div>
 
-        Forgot password ? <a href="{{ path('user_exam_resetpass') }}"> Click here</a>.
-</div>
+                            <form method = "post" action = "loginProcess">
 
-</div>
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                <div class="glyphicon glyphicon-remove" id = "error-msg">
+                                {{ flashMessage }}
+                                </div> 
+                            {% endfor %}
+                            
+                             {% for flashMessage in app.session.flashbag.get('success') %}
+                                <div id = "success-msg" class = "glyphicon glyphicon-ok">
+                                {{ flashMessage }}
+                                </div> 
+                            {% endfor %}
+
+                            
+                                {{ form_errors(form1.email) }}
+                                {{ form_widget(form1.email, {'attr': {'class': 'form-control', 'placeholder': 'Email / Username'} }) }}
+                                <br>
+                                {{ form_errors(form1.password) }}
+                                {{ form_widget(form1.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'} }) }}
+
+                                <br>
+                                {{ form_widget(form1.login, {'attr': {'class': 'btn btn-primary'} }) }}
+                                
+                            </form>
+
+                            Forgot password ? <a href="{{ path('user_exam_resetpass') }}" class = "signup-forgot"> Click here</a> | <a class = "signup-forgot" href="{{ path('user_exam_signup') }}"> Signup</a> .
+                    </div>
+
+                </div>
+
+    </body>
+
+</html>
+
+
+
+

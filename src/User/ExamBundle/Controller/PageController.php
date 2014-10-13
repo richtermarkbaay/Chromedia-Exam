@@ -22,6 +22,7 @@ class PageController extends Controller
     {
         $page = 'signup'; $action = 'save'; $actionName = 'Save';
         return $this->formbuilderAction($page, $action, $actionName);
+
     }
 
     public function resetpasschangeAction(){
@@ -59,9 +60,9 @@ class PageController extends Controller
                           ->add($action, 'submit', array('label' => $actionName))
                           ->getForm();
 
-        return $this->render('UserExamBundle:Page:'.$page.'.html.twig', array(
+              return $this->render('UserExamBundle:Page:'.$page.'.html.twig', array(
                                                             'form1' => $form->createView(),
                                                             'form2' => $form->createView(),
-         ));  
+            ));  
     }
 }
