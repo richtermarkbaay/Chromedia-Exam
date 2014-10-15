@@ -250,7 +250,7 @@ class SaveController extends Controller
                 //for email confirmation details
                  $name = $data['firstname']." ".$data['lastname'];
 
-                return new Response(sha1($data['email']));
+               // return new Response(sha1($data['email']));
 
 /*
           $user = new UserManagement();
@@ -272,7 +272,7 @@ class SaveController extends Controller
                     }
           } 
 */
-        /*
+        
 
                 $checkEmail = $this->getDoctrine()->getRepository('UserExamBundle:UserManagement')->findByEmail($data['email']);
                 if(count($checkEmail)>0){
@@ -329,8 +329,6 @@ class SaveController extends Controller
                         return $this->redirect('signup');
                     }   
                     
-    
-    */
     }
 
     public function updateAction(Request $request){
