@@ -20,6 +20,8 @@ User\ExamBundle\Entity\UserManagement:
             type: text
         date:
             type: date
+        code:
+            type: text
         status:
             type: text
     lifecycleCallbacks: {  }

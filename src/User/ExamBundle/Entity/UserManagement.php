@@ -53,6 +53,15 @@ class UserManagement
 
     private $date;
 
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+
+    private $code;
+
     /**
      * Get id
      *
@@ -224,6 +233,23 @@ class UserManagement
     {
         return $this->date;
     }
+
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
 
     public function setStatus($status)
     {

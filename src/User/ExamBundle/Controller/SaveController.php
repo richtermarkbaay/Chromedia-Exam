@@ -44,12 +44,12 @@ class SaveController extends Controller
         $session = new Session();
         $email = $session->get('email');
 
-
         $request = Request::createFromGlobals();
             $data = $request->request->get('form');     
             $id = $data['id'];
 
-            if($data['password']!= $data['conpass']){
+
+         if($data['password']!= $data['conpass']){
 
                 $this->get('session')->getFlashBag()->add('error', 'Password did not match! Please try again.');
                 return $this->redirect('resetpassword');
@@ -106,14 +106,15 @@ class SaveController extends Controller
                                 $query = $em->createQuery("SELECT u FROM UserExamBundle:UserManagement u WHERE u.email = '$email'");
                                 $result = $query->getResult();
 
-
-            if(count($result)>0){
+                 if(count($result)>0){
 
                     foreach($result as $row){
 
                                 $fname = $row->getFirstname();
                                      $lname = $row->getLastname();
                                             $id = $row->getId();
+
+                                            $urlCode = $id."&authCode=".sha1($email);
                             } 
 
 
@@ -130,7 +131,7 @@ class SaveController extends Controller
                                                                                         'email' => $email,
                                                                                         'fname' => $fname,
                                                                                         'lname' => $lname,
-                                                                                        'id' => $id,
+                                                                                        'urlCode' => $urlCode,
                                                                                      )
                                 )
                             );
@@ -151,11 +152,16 @@ class SaveController extends Controller
                 return $this->redirect('reset_pass');
 
             }
+
+            //$urlCode = $result->getId()."&authCode=".sha1($email);
+
+           
     }
 
     //send email
     public function sendEmail($id, $name, $email)
     {
+        $urlCode = $id."&authCode=".sha1($email);
         $message = \Swift_Message::newInstance()
 
             ->setSubject('Email Confirmation')
@@ -168,7 +174,7 @@ class SaveController extends Controller
                                                                  array(
                                                                         'email' => $email,
                                                                         'name' => $name,
-                                                                        'id' => $id,
+                                                                        'urlCode' => $urlCode,
                                                                      )
                 )
             )
@@ -189,43 +195,56 @@ class SaveController extends Controller
 
         if(isset($_GET['id'])){
                  $id = $_GET['id'];
-                        $stat = 'active';
+                 $urlCode = $_GET['authCode'];
+
+
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery("SELECT u.id FROM UserExamBundle:UserManagement u WHERE u.code = '$urlCode'");
+                    $result = $query->getResult();
+
+                    if(count($result)>0){
+                        
+                             $stat = 'active';
                         
 
-                        $user = new UserManagement();
-                        $em = $this->getDoctrine()->getManager();
-                        $user = $em->getRepository('UserExamBundle:UserManagement')->find($id);
+                                $user = new UserManagement();
+                                $em = $this->getDoctrine()->getManager();
+                                $user = $em->getRepository('UserExamBundle:UserManagement')->find($id);
 
-                        $datenow = date('Y-m-d');
-                        $dateDB = $user->getDate();
+                                $datenow = date('Y-m-d');
+                                $dateDB = $user->getDate();
 
-                         
-                        $resultDateCkecked = static::checkDateTimeAction($dateDB, $datenow);
+                                 
+                                $resultDateCkecked = static::checkDateTimeAction($dateDB, $datenow);
 
-                         if($resultDateCkecked){
+                                 if($resultDateCkecked){
 
-                             return new Response('<script> alert("This confirmation has been expired!"); </script> I advice you to delete this message! ^_^');
+                                     return new Response('<script> alert("This confirmation has been expired!"); </script> I advice you to delete this message! ^_^');
 
-                        }else if($user->getStatus() == $stat){
+                                }else if($user->getStatus() == $stat){
 
-                                return new Response('<script> alert("You cannot access this confirmation anymore! Account is already confirmed."); </script> I advice you to delete this message! ^_^');
+                                        return new Response('<script> alert("You cannot access this confirmation anymore! Account is already confirmed."); </script> I advice you to delete this message! ^_^');
 
-                        } else {
+                                } else {
 
-                                try{
-                                            $user->setStatus($stat);
-                                            $em->flush();
+                                        try{
+                                                    $user->setStatus($stat);
+                                                    $em->flush();
 
-                                    }catch(\Doctrine\DBAL\DBALException $e) {
+                                            }catch(\Doctrine\DBAL\DBALException $e) {
 
-                                                        $this->get('session')->getFlashBag()->add('error', 'Somethings happen with the confirmation of account, Please try again!');
+                                                                $this->get('session')->getFlashBag()->add('error', 'Somethings happen with the confirmation of account, Please try again!');
 
-                                                    }
-                                     $this->get('session')->getFlashBag()->add('success', 'Your email has been confirmed! You can login now.');                 
-                                    return $this->redirect('login');
+                                                            }
+                                             $this->get('session')->getFlashBag()->add('success', 'Your email has been confirmed! You can login now.');                 
+                                            return $this->redirect('login');
 
+                                } 
 
-                        }
+                    }else
+                    {
+                        return new Response('Invalid confirmation code!');
+                    }
         }     
     }
 
@@ -249,8 +268,6 @@ class SaveController extends Controller
 
                 //for email confirmation details
                  $name = $data['firstname']." ".$data['lastname'];
-
-               // return new Response(sha1($data['email']));
 
 /*
           $user = new UserManagement();
@@ -295,7 +312,8 @@ class SaveController extends Controller
                                  $user->setLastname($data['lastname']);
                                     $user->setPassword($fpass);
                                         $user->setConpass($fpass);
-                                             $user->setStatus($stat);
+                                            $user->setCode(sha1($data['email']));
+                                                $user->setStatus($stat);
 
                                                 //for expiration purposes
                                             

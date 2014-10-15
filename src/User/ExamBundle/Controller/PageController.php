@@ -29,8 +29,9 @@ class PageController extends Controller
 
           $page = 'reset_password'; $action = 'save'; $actionName = 'Save';
           return $this->formbuilderAction($page, $action, $actionName);
-    }
 
+        }
+        
     //login
     public function loginAction()
     {      
