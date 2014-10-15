@@ -2,8 +2,14 @@
 <html>
 
 	<head>
-		<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		{% block stylesheets %}
+		    {% stylesheets 
+		    	'@UserExamBundle/Resources/public/css/*' filter='cssrewrite'
+		     %}
+		         <link rel="stylesheet" href="{{ asset_url }}" />
+		         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		    {% endstylesheets %}
+		{% endblock %}
 	</head>
 
 	<body>

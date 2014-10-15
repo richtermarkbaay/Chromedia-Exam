@@ -1,0 +1,152 @@
+body{
+background-image: url('/images/bg.jpg');
+}
+body.page-request p, body.page-resetpassword p {
+color: #fff;
+}
+div#formWrapper {
+width: 500px;
+margin: 0 auto;
+margin-top: 100px;
+background: #808080;
+border-radius: 5px;
+padding: 30px;
+color :#fff;
+}
+
+a.glyphicon.glyphicon-off {
+color: #fff;
+margin-left: 20px;
+border-right: 1px solid #A9A9A9;
+padding: 10px;
+border-left: 1px solid #A9A9A9;
+}
+
+a.glyphicon.glyphicon-off:hover {
+background: #696969;
+}
+
+.form-control {
+font-weight: 100;
+}
+
+a.fpass {
+color: #00FFFF;
+font-weight: 100;
+}
+
+button#form_save, button#form_login {
+width: 100%;
+padding: 10px;
+}
+
+.title {
+font-size: 30px;
+font-weight: bold;
+margin-bottom: 30px;
+}
+
+.title span {
+font-size: 20px;
+color: #fff;
+font-weight: 100;
+}
+
+.page-profile .header {
+background: #808080;
+}
+
+.header .wrapper {
+width: 960px;
+margin: 0 auto;
+padding: 20px 0 20px 0;
+}
+
+.header .wrapper div {
+width: 70%;
+display: table-cell;
+font-weight: 100;
+color: lightgrey;
+}
+
+.header .wrapper .right span {
+color: #fff;
+}
+
+.page-profile .content {
+width: 960px;
+margin: 0 auto;
+padding-top: 50px;
+}
+
+.page-profile input.form-control {
+border: none !important;
+width: 300px;
+}
+.page-profile a.glyphicon.glyphicon-home {
+color: #fff;
+font-size: 55px;
+position: absolute;
+top: 20px;
+}
+
+#error-msg {
+background: #FF8081;;
+color: #f7cdce;
+font-weight: 100;
+padding: 10px 0 10px 10px;
+width: 100%;
+border-radius: 3px;
+margin-bottom: 10px;
+}
+
+.page-profile span.id, .page-profile input#form_id, body.page-resetpassword input#form_id {
+	display:none;
+}
+
+a{
+color: #fff;
+text-decoration: none;
+}
+
+body.page-request .main {
+width: 500px;
+margin: 0 auto;
+margin-top: 100px;
+}
+
+body.page-request .main p {
+font-weight: 600;
+font-size: 23px;
+}
+
+button#form_request {
+width: 100%;
+}
+
+body.page-resetpassword .wrapper {
+width: 500px;
+margin: 0 auto;
+margin-top: 100px;
+}
+body.page-resetpassword .wrapper  p {
+font-size: 32px;
+text-align: center;
+}
+
+body.page-request a.signup-forgot {
+color: #428bca;
+}
+a.signup-forgot {
+color: #fff;
+font-weight: 100;
+font-style: italic;
+}
+
+div#success-msg {
+background: #9EFFAE;
+color: #057116;
+border-radius: 3px;
+font-weight: 100;
+padding: 10px;
+}

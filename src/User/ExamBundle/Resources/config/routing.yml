@@ -36,7 +36,7 @@ user_exam_login:
 
 user_exam_signup:
     path:     /signup
-    defaults: { _controller: UserExamBundle:Page:signup }
+    defaults: { _controller: UserExamBundle:Page:signup}
 
 user_exam_home:
     path:     /home

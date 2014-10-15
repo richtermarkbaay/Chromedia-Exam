@@ -17,11 +17,11 @@ class PageController extends Controller
         return $this->formbuilderAction($page, $action, $actionName);
     }
 
-    //sign up
+     //sign up
     public function signupAction()
     {
-        $page = 'signup'; $action = 'save'; $actionName = 'Save';
-        return $this->formbuilderAction($page, $action, $actionName);
+        $page = 'signup'; $action = 'save';$actionName = 'Save';        
+          return $this->formbuilderAction($page, $action, $actionName);
 
     }
 

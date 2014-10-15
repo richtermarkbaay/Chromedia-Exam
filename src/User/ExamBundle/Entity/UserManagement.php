@@ -44,10 +44,21 @@ class UserManagement
      */
     private $newpass;
 
+
     /**
-    *
-    *@var string
-    */
+     * Get id
+     *
+     * @return string
+     */
+
+    private $date;
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+
     private $status;
 
     /**
@@ -194,16 +205,32 @@ class UserManagement
     /**
      * Set status
      *
-     * @param string $status
+     * @param string $date
      * @return UserManagement
      */
+
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
     public function setStatus($status)
     {
         $this->status = $status;
 
         return $this;
     }
-
     /**
      * Get status
      *

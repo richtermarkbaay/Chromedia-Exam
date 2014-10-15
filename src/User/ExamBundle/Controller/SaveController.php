@@ -9,8 +9,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\HttpFoundation\Session\Session; 
 use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
+use Symfony\Component\Translation\Interval;
+use DateTime;
+
 class SaveController extends Controller
 {
+
+    public static function queryCheckerAction($queryToCheck){
+
+         if($queryToCheck == true){ 
+
+                return true;
+           }else{
+
+                return false;
+           }
+    }
+
     public function querycountidAction(){
 
                 $em = $this->getDoctrine()->getManager();
@@ -121,7 +136,7 @@ class SaveController extends Controller
                             );
 
                         $session = new Session();
-                        $session->set('id', $id);
+                         $session->set('id', $id);
                         $session->set('email', $email);
 
                         $this->get('mailer')->send($message);  
@@ -175,16 +190,27 @@ class SaveController extends Controller
         if(isset($_GET['id'])){
                  $id = $_GET['id'];
                         $stat = 'active';
+                        
 
                         $user = new UserManagement();
                         $em = $this->getDoctrine()->getManager();
                         $user = $em->getRepository('UserExamBundle:UserManagement')->find($id);
 
-                        if($user->getStatus() == $stat){
+                        $datenow = date('Y-m-d');
+                        $dateDB = $user->getDate();
+
+                         
+                        $resultDateCkecked = static::checkDateTimeAction($dateDB, $datenow);
+
+                         if($resultDateCkecked){
+
+                             return new Response('<script> alert("This confirmation has been expired!"); </script> I advice you to delete this message! ^_^');
+
+                        }else if($user->getStatus() == $stat){
 
                                 return new Response('<script> alert("You cannot access this confirmation anymore! Account is already confirmed."); </script> I advice you to delete this message! ^_^');
 
-                        } else{
+                        } else {
 
                                 try{
                                             $user->setStatus($stat);
@@ -203,6 +229,17 @@ class SaveController extends Controller
         }     
     }
 
+    public static function checkDateTimeAction($datetime1, $datetime2){
+
+              $dateFormated = $datetime1->format('Y-m-d');
+
+                 $DT1 = new DateTime($dateFormated);
+                 $DT2 = new DateTime($datetime2);
+ 
+               $action = ($DT2 > $DT1) ? true : false;
+
+                return $action;
+    }
 
     public function saveAction(Request $request)
     {
@@ -211,17 +248,46 @@ class SaveController extends Controller
                 $data = $request->request->get('form');
 
                 //for email confirmation details
-                $email = $data['email'];
-                $name = $data['firstname']." ".$data['lastname'];
+                 $name = $data['firstname']." ".$data['lastname'];
 
-                    if($data['password'] != $data['conpass']){
+                return new Response(sha1($data['email']));
 
-                           $this->get('session')->getFlashBag()->add('error', ' Please confirm password.');
+/*
+          $user = new UserManagement();
+
+          $validator = $this->get('validator');
+          $errors = $validator->validate($user);
+
+          if($request->getMethod() == 'POST') {
+           // echo $request->request->all();
+          print_r($request->request->get('form')); exit();
+
+                   
+                    if (count($errors) > 0) {
+
+                        $errorsString = (string) $errors;
+                       return new Response($errorsString);
+                    } else {
+                      die('save');  
+                    }
+          } 
+*/
+        /*
+
+                $checkEmail = $this->getDoctrine()->getRepository('UserExamBundle:UserManagement')->findByEmail($data['email']);
+                if(count($checkEmail)>0){
+
+                        $this->get('session')->getFlashBag()->add('error', ' Email has already exist! ');
+                        return $this->redirect('signup');  
+
+                }else if($data['password'] != $data['conpass']){
+
+                          $this->get('session')->getFlashBag()->add('error', ' Please confirm password.');
                            return $this->redirect('signup');
-                    }else{
+                }else{
 
                          $fpass = sha1($data['password']);
-                         $stat = "inactive";
+                         $stat = "inactive";    
 
                          $user = new UserManagement();
                          $user->setEmail($data['email']);
@@ -231,27 +297,40 @@ class SaveController extends Controller
                                         $user->setConpass($fpass);
                                              $user->setStatus($stat);
 
-                            try{
+                                                //for expiration purposes
+                                            
+                                                $datenow = date('y-m-d');
+                                                $user->setDate(new \DateTime($datenow)); 
 
-                                    $lastid = $this->querycountidAction();
-                                    // send data to email function
-                                    $this->sendEmail($lastid, $name, $email); 
+                            try{
 
                                     $em = $this->getDoctrine()->getManager();
                                     $em->persist($user);
                                     $em->flush();
 
+                                            //check if query success
+                                            $check = static::queryCheckerAction($em);
+
+                                            if($check == true){
+
+                                                     $lastid = $this->querycountidAction() - 1; // decriment id 
+                                                     $this->sendEmail($lastid, $name, $data['email']); 
+
+                                            }else { }
+
+
+                                    $this->get('session')->getFlashBag()->add('success', $name.' successfully registered! Please confirm your account to your email.');
+                                    
                                  }catch(\Doctrine\DBAL\DBALException $e) {
 
-                                    $this->get('session')->getFlashBag()->add('error', 'Somethings happen that is cause not saving!');
-
+                                    $this->get('session')->getFlashBag()->add('error', 'Somethings happen in your Entity that is cause not saving!');
                                 }
 
-                    $this->get('session')->getFlashBag()->add('success', $name.' successfully registered! Please confirm your account to your email.');
-                    return $this->redirect('signup');
-
-                    }  
-
+                        return $this->redirect('signup');
+                    }   
+                    
+    
+    */
     }
 
     public function updateAction(Request $request){
@@ -322,4 +401,5 @@ class SaveController extends Controller
         }
 
     }
+
 }

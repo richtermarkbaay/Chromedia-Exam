@@ -1,9 +1,8 @@
-User\ExamBundle\Entity\Author\UserManagement:
+User\ExamBundle\Entity\UserManagement:
     properties:
-        email:
-            - Email:
-                message: The email "{{ value }}" is not a valid email."
-
         firstname:
-        	- NotBlank: ~
-
+            - NotBlank: {message:'Please enter your firstname'}
+        password:
+            - Length:
+                max: 6
+                maxMessage: "Your first name cannot be longer than {{ limit }} characters long"

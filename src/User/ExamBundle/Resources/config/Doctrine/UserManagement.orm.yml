@@ -18,6 +18,8 @@ User\ExamBundle\Entity\UserManagement:
             type: text
         conpass:
             type: text
+        date:
+            type: date
         status:
             type: text
     lifecycleCallbacks: {  }
